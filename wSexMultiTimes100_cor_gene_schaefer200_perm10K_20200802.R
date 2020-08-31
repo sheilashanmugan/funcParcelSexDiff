@@ -35,8 +35,8 @@ geneMat2_sort <- geneMat2[order(geneMat2$V1),]
 geneMat2_sort_200 <- subset(geneMat2_sort, select=-V1)
 
 ##correlate sorted img and gene data (medial wall value removed in both) for other enrichement analyses
-#img_gene_corr_mat <- sapply(1:20647, function(x) cor(data_parc_lh_sort_200,geneMat2_sort_200[,x]))
-#write.csv(gene[order(img_gene_corr_mat,decreasing = TRUE),], "~/Desktop/projects/pfn_sex_diff/genetics/gene_ranked.csv", row.names = FALSE,  quote=FALSE) #use ordering of img_gene_corr_mat based on img_gene_corr_mat'sg values, ordeing based on correlations
+# img_gene_corr_mat <- sapply(1:20647, function(x) cor(data_parc_lh_sort_200,geneMat2_sort_200[,x]))
+# write.csv(gene[order(img_gene_corr_mat,decreasing = TRUE),], "/cbica/projects/funcParcelSexDiff/results/genetics/GO/gene_ranked_wSexMultiTimes100CorGene_20200804.csv", row.names = FALSE,  quote=FALSE) #use ordering of img_gene_corr_mat based on img_gene_corr_mat'sg values, ordeing based on correlations
 
 #chech chromosome enrichement 
 chrom <- read.csv("~/cbica/projects/funcParcelSexDiff/inputData/genetics/Richiardi_Data_File_S2_ChrAdded.csv")
@@ -78,5 +78,76 @@ p<-ggplot(data=sigt5, aes(x=reorder(chromosome, sigt7), y=sigt7)) +
   geom_bar(stat="identity") + coord_flip() + xlab("chromosome") + ylab("enrichment")
 p
 
+
+
+sigX <- subset(dfsig, chromRefined == "X" & corr > 0)
+#write.csv(sigX, "/cbica/projects/funcParcelSexDiff/results/genetics/sigX.csv", row.names = FALSE,  quote=FALSE)
+
+
+
+#using sample of 11 genes (all genes on X that survived FDR), compare to 483 that survive FDR
+null.dist.medians <-data.frame(matrix(NA,nrow=1000,ncol=1))
+colnames(null.dist.medians)<- "median_rank"
+for (i in 1:1000){
+  set.seed(i)
+  genelist <- sample(dfsig$gene, 11, replace = FALSE, prob = NULL)
+  df11genes <- filter(dfsig, gene %in% genelist)
+  median_rank <- median(df11genes$corrSigRanked)
+  null.dist.medians[i, 1] <- median_rank
+}
+
+dfsigX <- subset(dfsig, chromRefined == "X")
+(sum(null.dist.medians$median_rank > median(dfsigX$corrSigRanked)))/1000
+
+
+
+#using sample of 9 genes (genes with positive corr that survive FDR), compare to 274 w pos corr that survive FDR
+dfsig_pos <- subset(dfsig, corr > 0)
+null.dist.medians <-data.frame(matrix(NA,nrow=1000,ncol=1))
+colnames(null.dist.medians)<- "median_rank"
+for (i in 1:1000){
+set.seed(i)
+genelist <- sample(dfsig_pos$gene, 9, replace = FALSE, prob = NULL)
+df9genes <- filter(dfsig_pos, gene %in% genelist)
+median_rank <- median(df9genes$corrSigRanked)
+null.dist.medians[i, 1] <- median_rank
+}
+median_rank_X <- median(sigX$corrSigRanked)
+(sum(null.dist.medians$median_rank > median(sigX$corrSigRanked)))/1000
+
+
+
+#using sample of 11 genes (all genes on X that survived FDR), compare to 15036 set
+df3$corrSigRanked <- rank(df3$corr)
+#using sample of 11 genes 
+null.dist.medians <-data.frame(matrix(NA,nrow=1000,ncol=1))
+colnames(null.dist.medians)<- "median_rank"
+for (i in 1:1000){
+  set.seed(i)
+  genelist <- sample(df3$gene, 11, replace = FALSE, prob = NULL)
+  dfgenes <- filter(df3, gene %in% genelist)
+  median_rank <- median(dfgenes$corrSigRanked)
+  null.dist.medians[i, 1] <- median_rank
+}
+
+dfsigX <- subset(dfsig, chromRefined == "X") #11 genes
+geneSigX11 <- dfsigX$gene
+dfgenesSigX11 <- filter(df3, gene %in% geneSigX11) #df that includes all the columns in "gene" where values correspond to the genes in geneSigX11
+(sum(null.dist.medians$median_rank > median(dfgenesSigX11$corrSigRanked)))/1000
+
+
+#using sample of 597 genes on X, compare to 15036 set
+df3$corrSigRanked <- rank(df3$corr) #rank 15036 genes based on correlation with SVM weights
+null.dist.medians <-data.frame(matrix(NA,nrow=1000,ncol=1))
+colnames(null.dist.medians)<- "median_rank"
+for (i in 1:1000){
+  set.seed(i)
+  genelist <- sample(df3$gene, 597, replace = FALSE, prob = NULL) #create sample of 597 random genes from 15036 genes -> genelist
+  dfgenes <- filter(df3, gene %in% genelist) #get a df that includes all the columns in "gene" where values correspond to the genes in genelist
+  median_rank <- median(dfgenes$corrSigRanked) #get the median rank of this sample of genes
+  null.dist.medians[i, 1] <- median_rank # put median rank in df for comparison to emperical rank below
+}
+dfgenesAllX <- subset(df3, chromRefined == "X") #get subset of 597 genes that are on X
+(sum(null.dist.medians$median_rank > median(dfgenesAllX$corrSigRanked)))/1000 #number of times median rank in null distribution is greater than epirical rank/1000
 
 
