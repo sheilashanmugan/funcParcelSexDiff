@@ -52,12 +52,10 @@ The steps below detail how to replicate this project, including statistical anal
 
     > This directory contains functions called in subsequent steps  
 <br>  
-
 2. Add [/SVM_scripts/scripts_from_zaixu](https://github.com/sheilashanmugan/funcParcelSexDiff/tree/gh-pages/SVM_scripts/scripts_from_zaixu) to matlab path.  
 
     > This directory contains functions called in subsequent steps  
 <br>
-
 3. Run [/SVM_scripts/makeNonZeroMatrix.m](https://github.com/sheilashanmugan/funcParcelSexDiff/blob/gh-pages/SVM_scripts/makeNonZeroMatrix.m) to make nonzero index.   
 
     > This script creates the non-zero index needed to visualize results  
@@ -66,13 +64,22 @@ The steps below detail how to replicate this project, including statistical anal
 
     > This frist part of this script (100 Repeat) submits 100 jobs, each of which are one of the 100 repetitions of SVM predictions. when you run , the 100 jobs will be submitted. The second part of this script (Permutation, 1000 times) submits 1000 jobs, each of which are one of 1000 permutations that will be used for significane testing of accuracy.  
 <br>
-<br>
-5. Run [SVM_scripts/calc_accuracy/average_acc_sens_spec_SVM_multiTimes_20200720.m](https://github.com/sheilashanmugan/funcParcelSexDiff/blob/gh-pages/SVM_scripts/calc_accuracy/average_acc_sens_spec_SVM_multiTimes_20200720.m) with matlab open  
+5. Run [/SVM_scripts/calc_accuracy/average_acc_sens_spec_SVM_multiTimes_20200720.m](https://github.com/sheilashanmugan/funcParcelSexDiff/blob/gh-pages/SVM_scripts/calc_accuracy/average_acc_sens_spec_SVM_multiTimes_20200720.m) to calculate summary measures and assess significance 
 
     > This script calculates the average accuracy, sensitivity, specificity from the 100x repeats of SVM. It also calculates a p value for accuracy.  
-<br>
 <br>
 6. Run [/SVM_scripts/Weight_Visualize_Workbench/Weight_Visualize_Workbench_Sex_SVM2foldCSelectCovSubIndex_20200721.m](https://github.com/sheilashanmugan/funcParcelSexDiff/blob/gh-pages/SVM_scripts/Weight_Visualize_Workbench/Weight_Visualize_Workbench_Sex_SVM2foldCSelectCovSubIndex_20200721.m) to create files for workbench visualization  
 
     > This script creates files for workbench visualization. It creates ciftis that display the weight of the first 25% regions with the highest absolute weight from SVM (Figure 3C). It also creates a cift that displays the sum of the absolute value of weight across the 17 networks (Figure 3D).  
 <br>
+
+7. Visualize files in workbench
+
+    > /Applications/workbench/bin_macosx64/wb_view /Users/sheilash/Desktop/projects/pfn_sex_diff/inputData/spec_files/rh.inflated.surf.gii /Users/sheilash/Desktop/projects/pfn_sex_diff/inputData/spec_files/lh.inflated.surf.gii /Users/sheilash/Desktop/projects/pfn_sex_diff/inputData/Group_Loading_17Networks/*dscalar* /cbica/projects/funcParcelSexDiff/results/PredictionAnalysis/SVM/2fold_CSelect_Cov_SubIndex/Sex_CovAgeMotion/Permutation/res_MultiTimes/AtlasLoading/WeightVisualize_Sex_SVM_2fold_CSelect_Cov_MultiTimes/First25Percent/w_Brain_Sex_First25Percent_Network_*.dscalar.nii /cbica/projects/funcParcelSexDiff/results/PredictionAnalysis/SVM/2fold_CSelect_Cov_SubIndex/Sex_CovAgeMotion/Permutation/res_MultiTimes/AtlasLoading/WeightVisualize_Sex_SVM_2fold_CSelect_Cov_MultiTimes/w_Brain_Sex_Abs_sum.dscalar.nii &
+<br>
+
+### Univariate approach
+1. Submit [/atlasLoadingScripts/sexEffect_atlasLoading_20200612.R] (https://github.com/sheilashanmugan/funcParcelSexDiff/blob/gh-pages/atlasLoadingScripts/sexEffect_atlasLoading_20200612.R) to qsub to calculate effect of sex on atlas loadings  
+
+    > This script aggregates atlas loadings for all subjects, runs a GAM at each vertex to determine the effect of sex while controlling for age and motion, then corrects for multiple comparisons. 
+
