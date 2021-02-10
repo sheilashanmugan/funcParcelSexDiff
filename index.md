@@ -8,13 +8,12 @@ Sheila Shanmugan
 
 ### Faculty Leads
 Theodore D. Satterthwaite  
-Aaron Alexander-Bloch
 
 ### Analytic Replicator
 Zaixu Cui
 
 ### Collaborators 
-Jakob Seidlitz, Zaixu Cui, Azeez Adebimpe, Danielle S. Bassett, Maxwell A. Bertolero, Christos Davatzikos, Damien A. Fair, Raquel E. Gur, Ruben C. Gur, Hongming Li, Adam Pines, Armin Raznahan, David R. Roalf, Russell T. Shinohara, Jacob Vogel, Daniel H. Wolf, Yong Fan
+Jakob Seidlitz, Zaixu Cui, Azeez Adebimpe, Danielle S. Bassett, Maxwell A. Bertolero, Christos Davatzikos, Damien A. Fair, Raquel E. Gur, Ruben C. Gur, Hongming Li, Adam Pines, Armin Raznahan, David R. Roalf, Russell T. Shinohara, Jacob Vogel, Daniel H. Wolf, Yong Fan, Aaron Alexander-Bloch  
 
 ### Project Start Date
 January 2019
