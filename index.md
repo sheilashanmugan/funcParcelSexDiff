@@ -10,7 +10,8 @@ Sheila Shanmugan
 Theodore D. Satterthwaite  
 
 ### Analytic Replicator
-Zaixu Cui
+Zaixu Cui (imaging)
+Jakob Seidlitz (genetics)
 
 ### Collaborators 
 Jakob Seidlitz, Zaixu Cui, Azeez Adebimpe, Danielle S. Bassett, Maxwell A. Bertolero, Christos Davatzikos, Damien A. Fair, Raquel E. Gur, Ruben C. Gur, Hongming Li, Adam Pines, Armin Raznahan, David R. Roalf, Russell T. Shinohara, Jacob Vogel, Daniel H. Wolf, Yong Fan, Aaron Alexander-Bloch  
@@ -22,7 +23,7 @@ January 2019
 In preparation
 
 ### Datasets
-?
+PNC
 
 ### Github Repository
 <https://github.com/sheilashanmugan/funcParcelSexDiff>
@@ -77,6 +78,21 @@ The steps below detail how to replicate this project, including statistical anal
     > /Applications/workbench/bin_macosx64/wb_view /Users/sheilash/Desktop/projects/pfn_sex_diff/inputData/spec_files/rh.inflated.surf.gii /Users/sheilash/Desktop/projects/pfn_sex_diff/inputData/spec_files/lh.inflated.surf.gii /Users/sheilash/Desktop/projects/pfn_sex_diff/inputData/Group_Loading_17Networks/*dscalar* /cbica/projects/funcParcelSexDiff/results/PredictionAnalysis/SVM/2fold_CSelect_Cov_SubIndex/Sex_CovAgeMotion/Permutation/res_MultiTimes/AtlasLoading/WeightVisualize_Sex_SVM_2fold_CSelect_Cov_MultiTimes/First25Percent/w_Brain_Sex_First25Percent_Network_*.dscalar.nii /cbica/projects/funcParcelSexDiff/results/PredictionAnalysis/SVM/2fold_CSelect_Cov_SubIndex/Sex_CovAgeMotion/Permutation/res_MultiTimes/AtlasLoading/WeightVisualize_Sex_SVM_2fold_CSelect_Cov_MultiTimes/w_Brain_Sex_Abs_sum.dscalar.nii &
 <br>
 
+8. Get y values needed to draw ROC with [SVM_scripts/roc/yvalues_100_20201108.R](https://github.com/sheilashanmugan/funcParcelSexDiff/blob/gh-pages/SVM_scripts/roc/yvalues_100_20201108.R)
+
+    > This script aggregates the Y values across the 100 SVM repeats. The output of this step is used in step 9 below.
+<br>
+
+9. Create ROC with [/SVM_scripts/roc/SVM_ROC.m](https://github.com/sheilashanmugan/funcParcelSexDiff/blob/gh-pages/SVM_scripts/roc/SVM_ROC.m)
+
+    > This script creates the plot in Figure 3a. It uses the function [/SVM_scripts/roc/AUC_Calculate_ROC_Draw2.m](https://github.com/sheilashanmugan/funcParcelSexDiff/blob/gh-pages/SVM_scripts/roc/AUC_Calculate_ROC_Draw2.m)
+<br>
+
+10. Create barplot of SVM Weights with [/SVM_scripts/barplots/sums_weights_stackedBarplot_20201021.R](https://github.com/sheilashanmugan/funcParcelSexDiff/blob/gh-pages/SVM_scripts/barplots/sums_weights_stackedBarplot_20201021.R)
+
+    > This script creates the plot in Figure 3b
+<br>
+  
 ### Univariate approach
 1. Submit [/atlasLoadingScripts/sexEffect_atlasLoading_20200612.R](https://github.com/sheilashanmugan/funcParcelSexDiff/blob/gh-pages/atlasLoadingScripts/sexEffect_atlasLoading_20200612.R) to qsub to calculate effect of sex on atlas loadings   
 
