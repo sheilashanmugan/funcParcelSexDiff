@@ -10,7 +10,7 @@ Sheila Shanmugan
 Theodore D. Satterthwaite  
 
 ### Analytic Replicator
-Zaixu Cui (imaging)  
+Zaixu Cui (imaging) <br>
 Jakob Seidlitz (genetics)
 
 ### Collaborators 
