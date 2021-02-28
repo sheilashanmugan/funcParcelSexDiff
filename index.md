@@ -78,23 +78,76 @@ The steps below detail how to replicate this project, including statistical anal
     > /Applications/workbench/bin_macosx64/wb_view /Users/sheilash/Desktop/projects/pfn_sex_diff/inputData/spec_files/rh.inflated.surf.gii /Users/sheilash/Desktop/projects/pfn_sex_diff/inputData/spec_files/lh.inflated.surf.gii /Users/sheilash/Desktop/projects/pfn_sex_diff/inputData/Group_Loading_17Networks/*dscalar* /cbica/projects/funcParcelSexDiff/results/PredictionAnalysis/SVM/2fold_CSelect_Cov_SubIndex/Sex_CovAgeMotion/Permutation/res_MultiTimes/AtlasLoading/WeightVisualize_Sex_SVM_2fold_CSelect_Cov_MultiTimes/First25Percent/w_Brain_Sex_First25Percent_Network_*.dscalar.nii /cbica/projects/funcParcelSexDiff/results/PredictionAnalysis/SVM/2fold_CSelect_Cov_SubIndex/Sex_CovAgeMotion/Permutation/res_MultiTimes/AtlasLoading/WeightVisualize_Sex_SVM_2fold_CSelect_Cov_MultiTimes/w_Brain_Sex_Abs_sum.dscalar.nii &
 <br>
 
-8. Get y values needed to draw ROC with [SVM_scripts/roc/yvalues_100_20201108.R](https://github.com/sheilashanmugan/funcParcelSexDiff/blob/gh-pages/SVM_scripts/roc/yvalues_100_20201108.R)
+8. Calculate summary statistics with [SVM_scripts/calc_accuracy/average_acc_sens_spec_SVM_multiTimes_20200720.m](https://github.com/sheilashanmugan/funcParcelSexDiff/blob/gh-pages/SVM_scripts/calc_accuracy/average_acc_sens_spec_SVM_multiTimes_20200720.m)
 
-    > This script aggregates the Y values across the 100 SVM repeats. The output of this step is used in step 9 below.
+    > This script aggregates accuracy, sensitivity, and specificity across the 100 SVM repeats then averages them. It then compares this accuracy to permuted accuracies to calculate a p-value for accuracy. Save `acc_AllModels1_perm` as `SVM_perm_accuracy.csv` to generate histogram inset in step 11 below.
 <br>
 
-9. Create ROC with [/SVM_scripts/roc/SVM_ROC.m](https://github.com/sheilashanmugan/funcParcelSexDiff/blob/gh-pages/SVM_scripts/roc/SVM_ROC.m)
+9. Get y values needed to draw ROC with [SVM_scripts/roc/yvalues_100_20201108.R](https://github.com/sheilashanmugan/funcParcelSexDiff/blob/gh-pages/SVM_scripts/roc/yvalues_100_20201108.R)
 
-    > This script creates the plot in Figure 3a. It uses the function [/SVM_scripts/roc/AUC_Calculate_ROC_Draw2.m](https://github.com/sheilashanmugan/funcParcelSexDiff/blob/gh-pages/SVM_scripts/roc/AUC_Calculate_ROC_Draw2.m)
+    > This script aggregates the Y values across the 100 SVM repeats. The output of this step is used in step 10 below.
 <br>
 
-10. Create barplot of SVM Weights with [/SVM_scripts/barplots/sums_weights_stackedBarplot_20201021.R](https://github.com/sheilashanmugan/funcParcelSexDiff/blob/gh-pages/SVM_scripts/barplots/sums_weights_stackedBarplot_20201021.R)
+10. Create ROC with [SVM_scripts/roc/SVM_ROC.m](https://github.com/sheilashanmugan/funcParcelSexDiff/blob/gh-pages/SVM_scripts/roc/SVM_ROC.m)
+
+    > This script uses the function [/SVM_scripts/roc/AUC_Calculate_ROC_Draw2.m](https://github.com/sheilashanmugan/funcParcelSexDiff/blob/gh-pages/SVM_scripts/roc/AUC_Calculate_ROC_Draw2.m) to create the plot in Figure 3a.
+<br>
+
+11. Create histogram inset in figure 3a with [SVM_scripts/roc/SVM_accuracy_histogram.R](https://github.com/sheilashanmugan/funcParcelSexDiff/blob/gh-pages/SVM_scripts/roc/SVM_accuracy_histogram.R)
+
+    > This script creates a histogram of accuracies from the permutation test.
+<br>
+
+12. Create barplot of SVM Weights with [SVM_scripts/barplots/sums_weights_stackedBarplot_20201021.R](https://github.com/sheilashanmugan/funcParcelSexDiff/blob/gh-pages/SVM_scripts/barplots/sums_weights_stackedBarplot_20201021.R)
 
     > This script creates the plot in Figure 3b
 <br>
   
 ### Univariate approach
-1. Submit [/atlasLoadingScripts/sexEffect_atlasLoading_20200612.R](https://github.com/sheilashanmugan/funcParcelSexDiff/blob/gh-pages/atlasLoadingScripts/sexEffect_atlasLoading_20200612.R) to qsub to calculate effect of sex on atlas loadings   
+1. Submit [atlasLoadingScripts/sexEffect_atlasLoading_20200612.R](https://github.com/sheilashanmugan/funcParcelSexDiff/blob/gh-pages/atlasLoadingScripts/sexEffect_atlasLoading_20200612.R) to qsub to calculate effect of sex on atlas loadings   
 
     > This script aggregates atlas loadings for all subjects, runs a GAM at each vertex to determine the effect of sex while controlling for age and motion, then corrects for multiple comparisons.  
+    > qsub -l h_vmem=10.5G,s_vmem=10.0G /cbica/projects/funcParcelSexDiff/scripts/run_R_script.sh /cbica/projects/funcParcelSexDiff/scripts/atlasLoadingScripts/sexEffect_atlasLoading_20200612.R
+<br>
+
+2. Write effect map for each network with [WriteEffectMap/WriteEffectMap_Workbench_Sex_20200712.m](https://github.com/sheilashanmugan/funcParcelSexDiff/blob/gh-pages/WriteEffectMap/WriteEffectMap_Workbench_Sex_20200712.m)
+
+    > This script takes the output of the GAMs from step 1 and creates the CIFTI files of the effect of sex at each vertex. 
+<br>
+
+3. Create Figure 4A with [WriteEffectMap/WriteEffectMap_Workbench_Sex_AbsSum_20200712.m](https://github.com/sheilashanmugan/funcParcelSexDiff/blob/gh-pages/WriteEffectMap/WriteEffectMap_Workbench_Sex_AbsSum_20200712.m)
+
+    > This script sums the absolute value of the effect of sex across all 17 networks and creates a CIFTI file of this effect.
+<br>
+
+4. Visualize files in workbench (Figure 4A, 4D, and 4E)
+
+    > /Applications/workbench/bin_macosx64/wb_view /Users/sheilash/Desktop/projects/pfn_sex_diff/inputData/spec_files/rh.inflated.surf.gii /Users/sheilash/Desktop/projects/pfn_sex_diff/inputData/spec_files/lh.inflated.surf.gii /Users/sheilash/Desktop/projects/pfn_sex_diff/inputData/Group_Loading_17Networks/*dscalar* /cbica/projects/funcParcelSexDiff/results/GamAnalysis/AtlasLoading/SexEffects/Gam_Z_FDR_Sig_Vector_All_Sex_Network_* /cbica/projects/funcParcelSexDiff/results/GamAnalysis/AtlasLoading/SexEffects/UnthreshAbsSum/Gam_Sex_Abs_sum.dscalar.nii &
+<br>
+
+5. Aggregate group level matricies with [WriteEffectMap/barplots/Make_SexEffects_mat_gam_FDR_sig.m](https://github.com/sheilashanmugan/funcParcelSexDiff/blob/gh-pages/WriteEffectMap/barplots/Make_SexEffects_mat_gam_FDR_sig.m)
+
+    > This script aggregates group level matricies for each network that denote significant verticies. The output of this step is the input for step 6.
+<br>
+
+6. Create barplot in Figure 4C with [/SVM_scripts/barplots/sums_weights_stackedBarplot_20201021.R](https://github.com/sheilashanmugan/funcParcelSexDiff/blob/gh-pages/SVM_scripts/barplots/sums_weights_stackedBarplot_20201021.R)
+
+    > This script creates a barplot of the number of verticies that survives FDR correction for each network.
+<br>
+
+### Spin test to compare results from multivariate pattern analysis (Figure 3D) and GAMs (Figure 4A)
+1. Download and add [spintest/scripts/](https://github.com/sheilashanmugan/funcParcelSexDiff/tree/gh-pages/spintest/scripts) to matlab path.  
+
+    > This directory contains functions called in subsequent steps. These functions were originally downloaded from [here](https://github.com/spin-test/spin-test)  
+<br>
+    
+2. Prepare data for spin test with [spintest/prepare_data_for_spintest_20201104.R](https://github.com/sheilashanmugan/funcParcelSexDiff/blob/gh-pages/spintest/prepare_data_for_spintest_20201104.R)  
+
+    > This script formats data for the spin test.
+<br>
+
+    
+3. Run spin test with [spintest/spinSVMvsGAM.m](https://github.com/sheilashanmugan/funcParcelSexDiff/blob/gh-pages/spintest/spinSVMvsGAM.m)  
+
+    >This script runs the spin test to compare the map of summed absolute prediction weights from our machine learning model (Figure 3D) to a map of GAM effect size (Figure 4A) 
 <br>
