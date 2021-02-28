@@ -18,10 +18,6 @@ for i = 1:1000
 tmp = load([PredictionFolder_perm '/Time_' num2str(i) '/Accuracy.mat']);
    acc_AllModels1_perm(i, :) = tmp;
 end
-%acc_avg_perm = mean(cell2mat(struct2cell(acc_AllModels1_perm)));
-%stderror= (std((cell2mat(struct2cell(acc_AllModels1_perm)))))/(sqrt(1000));
-%t = (acc_avg - acc_avg_perm)/stderror
-%v=999;
-%tail2P = 2*tcdf(-abs(t),v)
+
 
 P = length(find((cell2mat(struct2cell(acc_AllModels1_perm))) > acc_avg)) / 1000
