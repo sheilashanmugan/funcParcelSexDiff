@@ -109,6 +109,7 @@ The steps below detail how to replicate this project, including statistical anal
 1. Submit [atlasLoadingScripts/sexEffect_atlasLoading_20200612.R](https://github.com/sheilashanmugan/funcParcelSexDiff/blob/gh-pages/atlasLoadingScripts/sexEffect_atlasLoading_20200612.R) to qsub to calculate effect of sex on atlas loadings   
 
     > This script aggregates atlas loadings for all subjects, runs a GAM at each vertex to determine the effect of sex while controlling for age and motion, then corrects for multiple comparisons.  
+    <br>
     > qsub -l h_vmem=10.5G,s_vmem=10.0G /cbica/projects/funcParcelSexDiff/scripts/run_R_script.sh /cbica/projects/funcParcelSexDiff/scripts/atlasLoadingScripts/sexEffect_atlasLoading_20200612.R
 <br>
 
