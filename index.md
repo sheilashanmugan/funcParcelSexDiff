@@ -45,7 +45,9 @@ The steps below detail how to replicate this project, including statistical anal
 ### Atlas Generation and Network Parcellation  
 1. Sample selection, atlas generation, and individual network parcellation.  
 
-    > These steps were completed as part of prior work (Cui et al., 2020) using scripts located here: https://github.com/ZaixuCui/pncSingleFuncParcel . Loading matrices for each of the 693 subjects used in this project can be found here: /cbica/projects/funcParcelSexDiff/data/Revision/SingleParcellation/SingleAtlas_Analysis/FinalAtlasLoading . The following steps use this preprocessed data.  
+    > These steps were completed as part of prior work (Cui et al., 2020) using scripts located at [https://github.com/ZaixuCui/pncSingleFuncParcel](https://github.com/ZaixuCui/pncSingleFuncParcel) <br>
+    Loading matrices for each of the 693 subjects used in this project can be found here: /cbica/projects/funcParcelSexDiff/data/Revision/SingleParcellation/SingleAtlas_Analysis/FinalAtlasLoading <br>
+    The following steps use this preprocessed data.  
 
 ### Multivariate Pattern Analysis  
 1. Add [/matlabFunctions/Toolbox/Code_mvNMF_l21_ard_v3_release/](https://github.com/sheilashanmugan/funcParcelSexDiff/tree/gh-pages/matlabFunctions/Toolbox/Code_mvNMF_l21_ard_v3_release) to matlab path.  
@@ -60,45 +62,43 @@ The steps below detail how to replicate this project, including statistical anal
 
     > This script creates the non-zero index needed to visualize results  
 <br>
-4. Run [/SVM_scripts/run_SVM/SVM_sex_2fold_CSelect_Cov_SubIndex_Perm_20200719.m](https://github.com/sheilashanmugan/funcParcelSexDiff/blob/gh-pages/SVM_scripts/run_SVM/SVM_sex_2fold_CSelect_Cov_SubIndex_Perm_20200719.m) with matlab open to run SVM  
+4. Run SVM with [/SVM_scripts/run_SVM/SVM_sex_2fold_CSelect_Cov_SubIndex_Perm_20200719.m](https://github.com/sheilashanmugan/funcParcelSexDiff/blob/gh-pages/SVM_scripts/run_SVM/SVM_sex_2fold_CSelect_Cov_SubIndex_Perm_20200719.m)  
 
-    > This frist part of this script (100 Repeat) submits 100 jobs, each of which are one of the 100 repetitions of SVM predictions. The second part of this script (Permutation, 1000 times) submits 1000 jobs, each of which are one of 1000 permutations that will be used for significane testing of accuracy.  
+    > This frist part of this script (100 Repeat) submits 100 jobs, each of which are one of the 100 repetitions of SVM predictions. 
+    > The second part of this script (Permutation, 1000 times) submits 1000 jobs, each of which are one of 1000 permutations that will be used for significane testing of accuracy. In each run, sex is permuted across the training subset without replacement.   
 <br>
-5. Run [/SVM_scripts/calc_accuracy/average_acc_sens_spec_SVM_multiTimes_20200720.m](https://github.com/sheilashanmugan/funcParcelSexDiff/blob/gh-pages/SVM_scripts/calc_accuracy/average_acc_sens_spec_SVM_multiTimes_20200720.m) to calculate summary measures and assess significance 
 
-    > This script calculates the average accuracy, sensitivity, specificity from the 100x repeats of SVM. It also calculates a p value for accuracy.  
-<br>
-6. Run [/SVM_scripts/Weight_Visualize_Workbench/Weight_Visualize_Workbench_Sex_SVM2foldCSelectCovSubIndex_20200721.m](https://github.com/sheilashanmugan/funcParcelSexDiff/blob/gh-pages/SVM_scripts/Weight_Visualize_Workbench/Weight_Visualize_Workbench_Sex_SVM2foldCSelectCovSubIndex_20200721.m) to create files for workbench visualization  
+5. Create files for workbench visualization by running [/SVM_scripts/Weight_Visualize_Workbench/Weight_Visualize_Workbench_Sex_SVM2foldCSelectCovSubIndex_20200721.m](https://github.com/sheilashanmugan/funcParcelSexDiff/blob/gh-pages/SVM_scripts/Weight_Visualize_Workbench/Weight_Visualize_Workbench_Sex_SVM2foldCSelectCovSubIndex_20200721.m)   
 
     > This script creates files for workbench visualization. It creates ciftis that display the weight of the first 25% regions with the highest absolute weight from SVM (Figure 3C). It also creates a cift that displays the sum of the absolute value of weight across the 17 networks (Figure 3D).  
 <br>
 
-7. Visualize files in workbench
+6. Visualize files in workbench (Figures 3C and 3D)
 
     > /Applications/workbench/bin_macosx64/wb_view /Users/sheilash/Desktop/projects/pfn_sex_diff/inputData/spec_files/rh.inflated.surf.gii /Users/sheilash/Desktop/projects/pfn_sex_diff/inputData/spec_files/lh.inflated.surf.gii /Users/sheilash/Desktop/projects/pfn_sex_diff/inputData/Group_Loading_17Networks/*dscalar* /cbica/projects/funcParcelSexDiff/results/PredictionAnalysis/SVM/2fold_CSelect_Cov_SubIndex/Sex_CovAgeMotion/Permutation/res_MultiTimes/AtlasLoading/WeightVisualize_Sex_SVM_2fold_CSelect_Cov_MultiTimes/First25Percent/w_Brain_Sex_First25Percent_Network_*.dscalar.nii /cbica/projects/funcParcelSexDiff/results/PredictionAnalysis/SVM/2fold_CSelect_Cov_SubIndex/Sex_CovAgeMotion/Permutation/res_MultiTimes/AtlasLoading/WeightVisualize_Sex_SVM_2fold_CSelect_Cov_MultiTimes/w_Brain_Sex_Abs_sum.dscalar.nii &
 <br>
 
-8. Calculate summary statistics with [SVM_scripts/calc_accuracy/average_acc_sens_spec_SVM_multiTimes_20200720.m](https://github.com/sheilashanmugan/funcParcelSexDiff/blob/gh-pages/SVM_scripts/calc_accuracy/average_acc_sens_spec_SVM_multiTimes_20200720.m)
+7. Calculate summary statistics with [SVM_scripts/calc_accuracy/average_acc_sens_spec_SVM_multiTimes_20200720.m](https://github.com/sheilashanmugan/funcParcelSexDiff/blob/gh-pages/SVM_scripts/calc_accuracy/average_acc_sens_spec_SVM_multiTimes_20200720.m)
 
     > This script aggregates accuracy, sensitivity, and specificity across the 100 SVM repeats then averages them. It then compares this accuracy to permuted accuracies to calculate a p-value for accuracy. Save `acc_AllModels1_perm` as `SVM_perm_accuracy.csv` to generate histogram inset in step 11 below.
 <br>
 
-9. Get y values needed to draw ROC with [SVM_scripts/roc/yvalues_100_20201108.R](https://github.com/sheilashanmugan/funcParcelSexDiff/blob/gh-pages/SVM_scripts/roc/yvalues_100_20201108.R)
+8. Get y values needed to draw ROC with [SVM_scripts/roc/yvalues_100_20201108.R](https://github.com/sheilashanmugan/funcParcelSexDiff/blob/gh-pages/SVM_scripts/roc/yvalues_100_20201108.R)
 
-    > This script aggregates the Y values across the 100 SVM repeats. The output of this step is used in step 10 below.
+    > This script aggregates the Y values across the 100 SVM repeats. The output of this step is used in step 9 below.
 <br>
 
-10. Create ROC with [SVM_scripts/roc/SVM_ROC.m](https://github.com/sheilashanmugan/funcParcelSexDiff/blob/gh-pages/SVM_scripts/roc/SVM_ROC.m)
+9. Create ROC with [SVM_scripts/roc/SVM_ROC.m](https://github.com/sheilashanmugan/funcParcelSexDiff/blob/gh-pages/SVM_scripts/roc/SVM_ROC.m)
 
     > This script uses the function [/SVM_scripts/roc/AUC_Calculate_ROC_Draw2.m](https://github.com/sheilashanmugan/funcParcelSexDiff/blob/gh-pages/SVM_scripts/roc/AUC_Calculate_ROC_Draw2.m) to create the plot in Figure 3a.
 <br>
 
-11. Create histogram inset in figure 3a with [SVM_scripts/roc/SVM_accuracy_histogram.R](https://github.com/sheilashanmugan/funcParcelSexDiff/blob/gh-pages/SVM_scripts/roc/SVM_accuracy_histogram.R)
+10. Create histogram inset in figure 3a with [SVM_scripts/roc/SVM_accuracy_histogram.R](https://github.com/sheilashanmugan/funcParcelSexDiff/blob/gh-pages/SVM_scripts/roc/SVM_accuracy_histogram.R)
 
     > This script creates a histogram of accuracies from the permutation test.
 <br>
 
-12. Create barplot of SVM Weights with [SVM_scripts/barplots/sums_weights_stackedBarplot_20201021.R](https://github.com/sheilashanmugan/funcParcelSexDiff/blob/gh-pages/SVM_scripts/barplots/sums_weights_stackedBarplot_20201021.R)
+11. Create barplot of SVM Weights with [SVM_scripts/barplots/sums_weights_stackedBarplot_20201021.R](https://github.com/sheilashanmugan/funcParcelSexDiff/blob/gh-pages/SVM_scripts/barplots/sums_weights_stackedBarplot_20201021.R)
 
     > This script creates the plot in Figure 3b
 <br>
@@ -130,7 +130,7 @@ The steps below detail how to replicate this project, including statistical anal
     > This script aggregates group level matricies for each network that denote significant verticies. The output of this step is the input for step 6.
 <br>
 
-6. Create barplot in Figure 4C with [/SVM_scripts/barplots/sums_weights_stackedBarplot_20201021.R](https://github.com/sheilashanmugan/funcParcelSexDiff/blob/gh-pages/SVM_scripts/barplots/sums_weights_stackedBarplot_20201021.R)
+6. Create barplot in Figure 4C with [WriteEffectMap/barplots/sum_gam_barplot_20201012.R](https://github.com/sheilashanmugan/funcParcelSexDiff/blob/gh-pages/WriteEffectMap/barplots/sum_gam_barplot_20201012.R)
 
     > This script creates a barplot of the number of verticies that survives FDR correction for each network.
 <br>
@@ -150,4 +150,9 @@ The steps below detail how to replicate this project, including statistical anal
 3. Run spin test with [spintest/spinSVMvsGAM.m](https://github.com/sheilashanmugan/funcParcelSexDiff/blob/gh-pages/spintest/spinSVMvsGAM.m)  
 
     >This script runs the spin test to compare the map of summed absolute prediction weights from our machine learning model (Figure 3D) to a map of GAM effect size (Figure 4A) 
+<br>
+
+4. Create hex spin plot with [spintest/spinSVMvsGAM.m](https://github.com/sheilashanmugan/funcParcelSexDiff/blob/gh-pages/spintest/spinSVMvsGAM.m)  
+
+    >This script creates a hex spin plot of GAM Loadings vs SVM weights (Figure 4B)  
 <br>
