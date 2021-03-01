@@ -45,8 +45,10 @@ The steps below detail how to replicate this project, including statistical anal
 ### Atlas Generation and Network Parcellation  
 1. Sample selection, atlas generation, and individual network parcellation.  
 
-    > These steps were completed as part of prior work (Cui et al., 2020) using scripts located at [https://github.com/ZaixuCui/pncSingleFuncParcel](https://github.com/ZaixuCui/pncSingleFuncParcel) <br>
-    Loading matrices for each of the 693 subjects used in this project can be found here: /cbica/projects/funcParcelSexDiff/data/Revision/SingleParcellation/SingleAtlas_Analysis/FinalAtlasLoading <br>
+    > These steps were completed as part of prior work (Cui et al., 2020) using scripts located at [https://github.com/ZaixuCui/pncSingleFuncParcel](https://github.com/ZaixuCui/pncSingleFuncParcel) <br> 
+    <br>
+    > Loading matrices for each of the 693 subjects used in this project can be found here: /cbica/projects/funcParcelSexDiff/data/Revision/SingleParcellation/SingleAtlas_Analysis/FinalAtlasLoading <br> 
+    <br>
     The following steps use this preprocessed data.  
 
 ### Multivariate Pattern Analysis  
@@ -80,7 +82,7 @@ The steps below detail how to replicate this project, including statistical anal
 
 7. Calculate summary statistics with [SVM_scripts/calc_accuracy/average_acc_sens_spec_SVM_multiTimes_20200720.m](https://github.com/sheilashanmugan/funcParcelSexDiff/blob/gh-pages/SVM_scripts/calc_accuracy/average_acc_sens_spec_SVM_multiTimes_20200720.m)
 
-    > This script aggregates accuracy, sensitivity, and specificity across the 100 SVM repeats then averages them. It then compares this accuracy to permuted accuracies to calculate a p-value for accuracy. Save `acc_AllModels1_perm` as `SVM_perm_accuracy.csv` to generate histogram inset in step 11 below.
+    > This script aggregates accuracy, sensitivity, and specificity across the 100 SVM repeats then averages them. It then compares this accuracy to permuted accuracies to calculate a p-value for accuracy. Save `acc_AllModels1_perm` as `SVM_perm_accuracy.csv`. This is used as the input when generating the histogram inset in step 10 below.
 <br>
 
 8. Get y values needed to draw ROC with [SVM_scripts/roc/yvalues_100_20201108.R](https://github.com/sheilashanmugan/funcParcelSexDiff/blob/gh-pages/SVM_scripts/roc/yvalues_100_20201108.R)
