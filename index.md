@@ -155,7 +155,7 @@ The steps below detail how to replicate this project, including statistical anal
     >This script runs the spin test to compare the map of summed absolute prediction weights from our machine learning model (Figure 3D) to a map of GAM effect size (Figure 4A) 
 <br>
 
-4. Create hex spin plot with [spintest/spinSVMvsGAM.m](https://github.com/sheilashanmugan/funcParcelSexDiff/blob/gh-pages/spintest/spinSVMvsGAM.m)  
+4. Create hex spin plot with [spintest/hexplots_20210301.R](https://github.com/sheilashanmugan/funcParcelSexDiff/blob/gh-pages/spintest/hexplots_20210301.R)  
 
     >This script creates a hex spin plot of GAM Loadings vs SVM weights (Figure 4B)  
 <br>
